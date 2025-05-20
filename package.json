@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "dc": "npm run lint && npm run tsc",
     "lint": "eslint . --fix --cache",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "prepare": "husky"
   },
   "dependencies": {
     "react": "^19.1.0",
