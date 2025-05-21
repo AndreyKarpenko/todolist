@@ -22,7 +22,7 @@ export const ProductPage: FC = () => {
 
   const { updateItemHandler } = context;
 
-  const changeHandler = useCallback(
+  const handleChangeInput = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setItem(prevState => ({
         ...prevState,
@@ -32,11 +32,11 @@ export const ProductPage: FC = () => {
     [],
   );
 
-  const editProductHandler = useCallback(() => {
+  const handlePressEditButton = useCallback(() => {
     updateItemHandler(item, () => navigate('/'));
   }, [item, navigate, updateItemHandler]);
 
-  const onChangeAmount = useCallback((value: string) => {
+  const handleChangeAmount = useCallback((value: string) => {
     setItem(prevState => {
       return { ...prevState, amount: value };
     });
@@ -44,14 +44,14 @@ export const ProductPage: FC = () => {
 
   return (
     <div className="form-container">
-      <Input onChange={changeHandler} name={'name'} value={item.name} />
+      <Input onChange={handleChangeInput} name={'name'} value={item.name} />
       <Input
-        onChange={changeHandler}
+        onChange={handleChangeInput}
         name={'description'}
         value={item.description}
       />
-      <AmountSelect onChangeAmount={onChangeAmount} value={item.amount} />
-      <Button onClick={editProductHandler} variant={'default'}>
+      <AmountSelect onChangeSelect={handleChangeAmount} value={item.amount} />
+      <Button onClick={handlePressEditButton} variant={'default'}>
         Update
       </Button>
     </div>

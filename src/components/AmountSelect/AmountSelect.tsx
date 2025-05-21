@@ -8,23 +8,23 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import type { FC } from 'react';
+import { amountValues } from '@/components/AmountSelect/constants';
+import type { AmountSelectProps } from '@/components/AmountSelect/types';
 
-const amounts = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-
-export const AmountSelect: FC<{
-  onChangeAmount: (value: string) => void;
-  value?: string;
-  disabled?: boolean;
-}> = ({ onChangeAmount, value, disabled }) => {
+export const AmountSelect: FC<AmountSelectProps> = ({
+  onChangeSelect,
+  value,
+  disabled,
+}) => {
   return (
-    <Select disabled={disabled} onValueChange={onChangeAmount} value={value}>
+    <Select disabled={disabled} onValueChange={onChangeSelect} value={value}>
       <SelectTrigger className="w-[auto]">
         <SelectValue placeholder="Choose an amount" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Amount</SelectLabel>
-          {amounts.map(item => (
+          {amountValues.map(item => (
             <SelectItem key={item} value={item}>
               {item}
             </SelectItem>

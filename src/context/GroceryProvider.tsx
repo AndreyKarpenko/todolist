@@ -3,11 +3,11 @@ import { GroceryContext } from './GroceryContext';
 import type { GroceryItemDto } from '@/components/GroceryItem/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
-  createProduct,
-  getAllProducts,
-  deleteProduct,
-  deleteAllProduct,
-  updateProduct,
+  createProductApi,
+  getAllProductsApi,
+  deleteProductApi,
+  deleteAllProductApi,
+  updateProductApi,
 } from '@/api';
 
 export const GroceryProvider = ({ children }: { children: ReactNode }) => {
@@ -16,32 +16,32 @@ export const GroceryProvider = ({ children }: { children: ReactNode }) => {
 
   const { data = [] } = useQuery({
     queryKey: ['products'],
-    queryFn: getAllProducts,
+    queryFn: getAllProductsApi,
   });
 
-  const { mutate: addNewItem } = useMutation({
-    mutationFn: createProduct,
+  const { mutate: addNewItemMutation } = useMutation({
+    mutationFn: createProductApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
     },
   });
 
-  const { mutate: deleteAllItems } = useMutation({
-    mutationFn: deleteAllProduct,
+  const { mutate: deleteAllItemsMutation } = useMutation({
+    mutationFn: deleteAllProductApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
     },
   });
 
-  const { mutate: deleteItem } = useMutation({
-    mutationFn: deleteProduct,
+  const { mutate: deleteItemMutation } = useMutation({
+    mutationFn: deleteProductApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
     },
   });
 
-  const { mutate: updateItem } = useMutation({
-    mutationFn: updateProduct,
+  const { mutate: updateItemMutation } = useMutation({
+    mutationFn: updateProductApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
     },
@@ -56,38 +56,38 @@ export const GroceryProvider = ({ children }: { children: ReactNode }) => {
     );
   }, [data, searchValue]);
 
-  const onAddNew = useCallback(
+  const addNewItemHandler = useCallback(
     (item: Omit<GroceryItemDto, 'id' | 'isBought'>) => {
-      addNewItem(item);
+      addNewItemMutation(item);
     },
-    [addNewItem],
+    [addNewItemMutation],
   );
 
-  const removeAllHandler = useCallback(() => {
-    deleteAllItems();
-  }, [deleteAllItems]);
+  const deleteAllItemsHandler = useCallback(() => {
+    deleteAllItemsMutation();
+  }, [deleteAllItemsMutation]);
 
   const removeItemHandler = useCallback(
     (id: string) => {
-      deleteItem(id);
+      deleteItemMutation(id);
     },
-    [deleteItem],
+    [deleteItemMutation],
   );
 
   const updateItemHandler = useCallback(
     (item: GroceryItemDto, onSuccess?: () => void) => {
-      updateItem(item, { onSuccess });
+      updateItemMutation(item, { onSuccess });
     },
-    [updateItem],
+    [updateItemMutation],
   );
 
   return (
     <GroceryContext.Provider
       value={{
         items: filteredItems,
-        setSearchValue,
-        removeAllHandler,
-        onAddNew,
+        searchValueHandler: setSearchValue,
+        deleteAllItemsHandler,
+        addNewItemHandler,
         removeItemHandler,
         updateItemHandler,
       }}>

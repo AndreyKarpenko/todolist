@@ -2,13 +2,13 @@ import type { GroceryItemDto } from '@/components/GroceryItem/types';
 
 const host = 'http://localhost:3001/api/products';
 
-export const getAllProducts = async (): Promise<GroceryItemDto[]> => {
+export const getAllProductsApi = async (): Promise<GroceryItemDto[]> => {
   const res = await fetch(`${host}`);
   if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
   return res.json();
 };
 
-export const createProduct = async (
+export const createProductApi = async (
   params: Omit<GroceryItemDto, 'id' | 'isBought'>,
 ) => {
   const res = await fetch(`${host}`, {
@@ -26,7 +26,7 @@ export const createProduct = async (
   return res.json();
 };
 
-export const updateProduct = async (params: GroceryItemDto) => {
+export const updateProductApi = async (params: GroceryItemDto) => {
   const res = await fetch(`${host}/${params.id}`, {
     method: 'PUT',
     headers: {
@@ -43,13 +43,13 @@ export const updateProduct = async (params: GroceryItemDto) => {
   return res.json();
 };
 
-export const deleteProduct = async (id: string) => {
+export const deleteProductApi = async (id: string) => {
   const res = await fetch(`${host}/${id}`, { method: 'DELETE' });
   if (!res.ok) throw new Error('Something went wrong');
   return res.json();
 };
 
-export const deleteAllProduct = async () => {
+export const deleteAllProductApi = async () => {
   const res = await fetch(`${host}`, { method: 'DELETE' });
   if (!res.ok) throw new Error('Something went wrong');
   return res.json();

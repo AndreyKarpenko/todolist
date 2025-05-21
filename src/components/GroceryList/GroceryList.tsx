@@ -28,21 +28,21 @@ export const GroceryList: FC = () => {
     throw new Error('Not found');
   }
 
-  const { items, onAddNew } = context;
+  const { items, addNewItemHandler } = context;
 
-  const changeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const handleChangeInput = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setNewItem(prevState => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
   }, []);
 
-  const addNewHandler = useCallback(() => {
-    onAddNew(newItem);
+  const handlePressEditButton = useCallback(() => {
+    addNewItemHandler(newItem);
     setNewItem(initialValues);
-  }, [newItem, onAddNew]);
+  }, [newItem, addNewItemHandler]);
 
-  const onChangeAmount = useCallback((value: string) => {
+  const handleChangeSelect = useCallback((value: string) => {
     setNewItem(prevState => {
       return { ...prevState, amount: value };
     });
@@ -54,19 +54,22 @@ export const GroceryList: FC = () => {
         <Input
           value={newItem.name}
           name={'name'}
-          onChange={changeHandler}
+          onChange={handleChangeInput}
           placeholder="Name"
         />
         <Input
           value={newItem.description}
           name="description"
-          onChange={changeHandler}
+          onChange={handleChangeInput}
           placeholder="Short description"
         />
-        <AmountSelect onChangeAmount={onChangeAmount} value={newItem.amount} />
+        <AmountSelect
+          onChangeSelect={handleChangeSelect}
+          value={newItem.amount}
+        />
         <Button
           disabled={!newItem.name || !newItem.description || !newItem.amount}
-          onClick={addNewHandler}
+          onClick={handlePressEditButton}
           variant="default">
           Add
         </Button>

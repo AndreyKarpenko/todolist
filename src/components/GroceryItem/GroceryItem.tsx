@@ -14,35 +14,39 @@ export const GroceryItem: FC<{ item: GroceryItemDto }> = ({ item }) => {
   const context = useContext(GroceryContext);
 
   if (!context) {
-    throw new Error('Not found');
+    throw new Error('Context Not found');
   }
 
-  const { removeItemHandler } = context;
+  const { removeItemHandler, updateItemHandler } = context;
 
-  const toggleHandler = useCallback(
+  const handleToggleCheckbox = useCallback(
     (value: boolean) => {
-      context.updateItemHandler({ ...item, isBought: value }, () =>
+      updateItemHandler({ ...item, isBought: value }, () =>
         setIsChecked(value),
       );
     },
-    [context, item],
+    [item, updateItemHandler],
   );
 
-  const editHandler = useCallback(() => {
+  const handlePressEditButton = useCallback(() => {
     navigate(`product`, { state: item });
   }, [item, navigate]);
 
-  const onChangeAmount = useCallback(
+  const handlePressRemoveButton = useCallback(() => {
+    removeItemHandler(item.id);
+  }, [item.id, removeItemHandler]);
+
+  const handleChangeSelect = useCallback(
     (value: string) => {
-      context.updateItemHandler({ ...item, amount: value });
+      updateItemHandler({ ...item, amount: value });
     },
-    [context, item],
+    [item, updateItemHandler],
   );
 
   return (
     <div className="item-container">
       <div className="item-block">
-        <Checkbox checked={isChecked} onCheckedChange={toggleHandler} />
+        <Checkbox checked={isChecked} onCheckedChange={handleToggleCheckbox} />
         <div className={`item-name ${isChecked ? 'item-bought' : ''}`}>
           {item.name}
         </div>
@@ -51,18 +55,21 @@ export const GroceryItem: FC<{ item: GroceryItemDto }> = ({ item }) => {
         </div>
         <AmountSelect
           disabled={isChecked}
-          onChangeAmount={onChangeAmount}
+          onChangeSelect={handleChangeSelect}
           value={item.amount}
         />
       </div>
 
       <div className="action-block">
-        <Button disabled={isChecked} onClick={editHandler} variant="default">
+        <Button
+          disabled={isChecked}
+          onClick={handlePressEditButton}
+          variant="default">
           Edit
         </Button>
         <Button
           disabled={isChecked}
-          onClick={() => removeItemHandler(item.id)}
+          onClick={handlePressRemoveButton}
           variant="destructive">
           Remove
         </Button>
