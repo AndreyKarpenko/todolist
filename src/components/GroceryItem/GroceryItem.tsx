@@ -29,7 +29,7 @@ export const GroceryItem: FC<{ item: GroceryItemDto }> = ({ item }) => {
   );
 
   const handlePressEditButton = useCallback(() => {
-    navigate(`product`, { state: item });
+    navigate(`product/${item.id}`, { state: item });
   }, [item, navigate]);
 
   const handlePressRemoveButton = useCallback(() => {
