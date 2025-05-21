@@ -1,0 +1,46 @@
+.item-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 60px;
+    padding: 10px;
+    gap: 10px;
+    border: 1px solid rgb(174, 170, 170);
+    border-radius: 10px;
+}
+
+.item-block {
+    align-items: center;
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+}
+
+.action-block {
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.item-name {
+    font-weight: 800;
+    font-size: 20px;
+    width: 100px;
+}
+
+.item-description {
+    flex: 1;
+}
+
+.item-amount {
+    font-weight: 800;
+    font-size: 20px;
+    width: 100px;
+    text-align: right;
+}
+
+.item-bought {
+    text-decoration: line-through;
+    opacity: 0.5;
+}

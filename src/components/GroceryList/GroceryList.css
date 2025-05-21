@@ -1,0 +1,12 @@
+.list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 20px;
+}
+
+.add-item-form {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
