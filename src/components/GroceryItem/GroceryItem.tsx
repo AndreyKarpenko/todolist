@@ -41,10 +41,8 @@ export const GroceryItem: FC<{ item: GroceryItemDto }> = ({ item }) => {
 
   return (
     <div className="item-container">
-      <div className="flex items-center space-x-2">
-        <Checkbox checked={isChecked} onCheckedChange={toggleHandler} />
-      </div>
       <div className="item-block">
+        <Checkbox checked={isChecked} onCheckedChange={toggleHandler} />
         <div className={`item-name ${isChecked ? 'item-bought' : ''}`}>
           {item.name}
         </div>
@@ -54,7 +52,7 @@ export const GroceryItem: FC<{ item: GroceryItemDto }> = ({ item }) => {
         <AmountSelect
           disabled={isChecked}
           onChangeAmount={onChangeAmount}
-          defaultValue={item.amount}
+          value={item.amount}
         />
       </div>
 

@@ -63,7 +63,7 @@ export const GroceryList: FC = () => {
           onChange={changeHandler}
           placeholder="Short description"
         />
-        <AmountSelect onChangeAmount={onChangeAmount} />
+        <AmountSelect onChangeAmount={onChangeAmount} value={newItem.amount} />
         <Button
           disabled={!newItem.name || !newItem.description || !newItem.amount}
           onClick={addNewHandler}

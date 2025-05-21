@@ -50,10 +50,7 @@ export const ProductPage: FC = () => {
         name={'description'}
         value={item.description}
       />
-      <AmountSelect
-        onChangeAmount={onChangeAmount}
-        defaultValue={item.amount}
-      />
+      <AmountSelect onChangeAmount={onChangeAmount} value={item.amount} />
       <Button onClick={editProductHandler} variant={'default'}>
         Update
       </Button>

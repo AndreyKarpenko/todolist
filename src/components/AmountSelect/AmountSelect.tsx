@@ -13,15 +13,12 @@ const amounts = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
 export const AmountSelect: FC<{
   onChangeAmount: (value: string) => void;
-  defaultValue?: string;
+  value?: string;
   disabled?: boolean;
-}> = ({ onChangeAmount, defaultValue, disabled }) => {
+}> = ({ onChangeAmount, value, disabled }) => {
   return (
-    <Select
-      disabled={disabled}
-      onValueChange={onChangeAmount}
-      defaultValue={defaultValue}>
-      <SelectTrigger className="w-[180px]">
+    <Select disabled={disabled} onValueChange={onChangeAmount} value={value}>
+      <SelectTrigger className="w-[auto]">
         <SelectValue placeholder="Choose an amount" />
       </SelectTrigger>
       <SelectContent>
