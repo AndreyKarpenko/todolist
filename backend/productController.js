@@ -6,7 +6,6 @@ export const getAllProductsController = async (req, res) => {
 };
 
 export const createProductController = async (req, res) => {
-  console.log(req.body);
   const product = await Product.addItem(req.body);
   return res.status(200).json(product);
 };
