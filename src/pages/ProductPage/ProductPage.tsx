@@ -1,16 +1,14 @@
-import { type FC, useCallback, useContext, useEffect, useState } from 'react';
+import { type FC, useContext, useEffect, useState } from 'react';
 import { GroceryContext } from '@/context/GroceryContext';
-import { Input } from '@/components/ui/input';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import type { GroceryItemDto } from '@/components/GroceryItem/types';
-import * as React from 'react';
 import './ProductPage.css';
-import { Button } from '@/components/ui/button';
-import { AmountSelect } from '@/components/AmountSelect';
+
+import { AddEditForm } from '@/components/AddEditForm';
 
 export const ProductPage: FC = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
+
   const context = useContext(GroceryContext);
 
   if (!context) {
@@ -18,7 +16,7 @@ export const ProductPage: FC = () => {
   }
 
   const [item, setItem] = useState<GroceryItemDto | undefined>();
-  const { items, updateItemHandler } = context;
+  const { items } = context;
   const [initialized, setInitialized] = useState(false); // флаг попытки инициализации
 
   useEffect(() => {
@@ -28,32 +26,6 @@ export const ProductPage: FC = () => {
       setInitialized(true);
     }
   }, [id, items]);
-
-  const handleChangeInput = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setItem(prevState =>
-        prevState
-          ? {
-              ...prevState,
-              [e.target.name]: e.target.value,
-            }
-          : prevState,
-      );
-    },
-    [],
-  );
-
-  const handlePressEditButton = useCallback(() => {
-    if (item) {
-      updateItemHandler(item, () => navigate('/'));
-    }
-  }, [item, navigate, updateItemHandler]);
-
-  const handleChangeAmount = useCallback((value: string) => {
-    setItem(prevState =>
-      prevState ? { ...prevState, amount: value } : prevState,
-    );
-  }, []);
 
   if (!initialized) {
     return <>Loading...</>;
@@ -65,16 +37,7 @@ export const ProductPage: FC = () => {
 
   return (
     <div className="form-container">
-      <Input onChange={handleChangeInput} name={'name'} value={item.name} />
-      <Input
-        onChange={handleChangeInput}
-        name={'description'}
-        value={item.description}
-      />
-      <AmountSelect onChangeSelect={handleChangeAmount} value={item.amount} />
-      <Button onClick={handlePressEditButton} variant={'default'}>
-        Update
-      </Button>
+      <AddEditForm editedItem={item} />
     </div>
   );
 };

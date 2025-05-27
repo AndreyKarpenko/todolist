@@ -4,7 +4,10 @@ type GroceryContextType = {
   items: GroceryItemDto[];
   searchValueHandler: (value: string) => void;
   deleteAllItemsHandler: () => void;
-  addNewItemHandler: (item: Omit<GroceryItemDto, 'id' | 'isBought'>) => void;
+  addNewItemHandler: (
+    item: Omit<GroceryItemDto, 'id' | 'isBought'>,
+    onSuccess?: () => void,
+  ) => void;
   removeItemHandler: (id: string) => void;
   updateItemHandler: (item: GroceryItemDto, onSuccess?: () => void) => void;
 };

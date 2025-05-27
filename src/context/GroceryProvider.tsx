@@ -45,6 +45,23 @@ export const GroceryProvider = ({ children }: { children: ReactNode }) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
     },
+    onMutate: async updatedItem => {
+      await queryClient.cancelQueries({ queryKey: ['products'] });
+      const previousTodos = queryClient.getQueryData(['products']);
+      queryClient.setQueryData(['products'], (old: GroceryItemDto[]) => {
+        return old.map(item => {
+          if (item.id === updatedItem.id) {
+            return updatedItem;
+          }
+          return item;
+        });
+      });
+      return { previousTodos };
+    },
+    onError: (_, __, context) => {
+      queryClient.setQueryData(['products'], context?.previousTodos);
+    },
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ['products'] }),
   });
 
   const filteredItems = useMemo(() => {

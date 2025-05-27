@@ -1,4 +1,4 @@
-import { type FC, useCallback, useContext, useState } from 'react';
+import { type FC, useCallback, useContext } from 'react';
 import './GroceryItem.css';
 import { Button } from '@/components/ui/button';
 import type { GroceryItemDto } from '@/components/GroceryItem/types';
@@ -8,8 +8,6 @@ import { useNavigate } from 'react-router-dom';
 import { AmountSelect } from '@/components/AmountSelect';
 
 export const GroceryItem: FC<{ item: GroceryItemDto }> = ({ item }) => {
-  const [isChecked, setIsChecked] = useState(item.isBought);
-
   const navigate = useNavigate();
   const context = useContext(GroceryContext);
 
@@ -21,9 +19,7 @@ export const GroceryItem: FC<{ item: GroceryItemDto }> = ({ item }) => {
 
   const handleToggleCheckbox = useCallback(
     (value: boolean) => {
-      updateItemHandler({ ...item, isBought: value }, () =>
-        setIsChecked(value),
-      );
+      updateItemHandler({ ...item, isBought: value });
     },
     [item, updateItemHandler],
   );
@@ -46,15 +42,19 @@ export const GroceryItem: FC<{ item: GroceryItemDto }> = ({ item }) => {
   return (
     <div className="item-container">
       <div className="item-block">
-        <Checkbox checked={isChecked} onCheckedChange={handleToggleCheckbox} />
-        <div className={`item-name ${isChecked ? 'item-bought' : ''}`}>
+        <Checkbox
+          checked={item.isBought}
+          onCheckedChange={handleToggleCheckbox}
+        />
+        <div className={`item-name ${item.isBought ? 'item-bought' : ''}`}>
           {item.name}
         </div>
-        <div className={`item-description ${isChecked ? 'item-bought' : ''}`}>
+        <div
+          className={`item-description ${item.isBought ? 'item-bought' : ''}`}>
           {item.description}
         </div>
         <AmountSelect
-          disabled={isChecked}
+          disabled={item.isBought}
           onChangeSelect={handleChangeSelect}
           value={item.amount}
         />
@@ -62,13 +62,13 @@ export const GroceryItem: FC<{ item: GroceryItemDto }> = ({ item }) => {
 
       <div className="action-block">
         <Button
-          disabled={isChecked}
+          disabled={item.isBought}
           onClick={handlePressEditButton}
           variant="default">
           Edit
         </Button>
         <Button
-          disabled={isChecked}
+          disabled={item.isBought}
           onClick={handlePressRemoveButton}
           variant="destructive">
           Remove
